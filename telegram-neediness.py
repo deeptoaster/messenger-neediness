@@ -27,12 +27,12 @@ for chat in json.load(open(sys.argv[1]))["chats"]["list"]:
         messages = messages.set_index("timestamp").drop("date", axis="columns")
         messages_aggregated = messages.groupby("from").resample("D").sum().unstack(0)
         messages_aggregated["delayed"].plot.area(
-            subplots=True, title="Delayed Messages", xlabel="Date"
+            sharey=True, subplots=True, title="Delayed Messages", xlabel="Date"
         )
         messages_aggregated["double"].plot.area(
-            subplots=True, title="Double Messages", xlabel="Date"
+            sharey=True, subplots=True, title="Double Messages", xlabel="Date"
         )
         messages_aggregated["count"].plot.area(
-            subplots=True, title="Message Count", xlabel="Date"
+            sharey=True, subplots=True, title="Message Count", xlabel="Date"
         )
 plt.show()

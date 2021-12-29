@@ -36,12 +36,12 @@ for chat in Path(sys.argv[1]).iterdir():
             messages.groupby("sender_name").resample("D").sum().unstack(0)
         )
         messages_aggregated["delayed"].plot.area(
-            subplots=True, title="Delayed Messages", xlabel="Date"
+            sharey=True, subplots=True, title="Delayed Messages", xlabel="Date"
         )
         messages_aggregated["double"].plot.area(
-            subplots=True, title="Double Messages", xlabel="Date"
+            sharey=True, subplots=True, title="Double Messages", xlabel="Date"
         )
         messages_aggregated["count"].plot.area(
-            subplots=True, title="Message Count", xlabel="Date"
+            sharey=True, subplots=True, title="Message Count", xlabel="Date"
         )
 plt.show()
