@@ -32,8 +32,16 @@ for chat in chats:
     messages["double"] = (
         messages["timestamp_ms"].diff() >= DOUBLE_MESSAGE_THRESHOLD_S * 1000
     ) & (messages["sender_name"] == messages["sender_name"].shift())
+    messages["count"] = 1
     messages = messages.set_index("timestamp").drop("timestamp_ms", "columns")
     messages_aggregated = messages.groupby("sender_name").resample("D").sum().unstack(0)
-    messages_aggregated["double"].plot.area(subplots=True)
-    messages_aggregated["delayed"].plot.area(subplots=True)
+    messages_aggregated["delayed"].plot.area(
+        subplots=True, title="Delayed Messages", xlabel="Date"
+    )
+    messages_aggregated["double"].plot.area(
+        subplots=True, title="Double Messages", xlabel="Date"
+    )
+    messages_aggregated["count"].plot.area(
+        subplots=True, title="Message Count", xlabel="Date"
+    )
 plt.show()
