@@ -24,13 +24,13 @@ for chat in Path(sys.argv[1]).iterdir():
             lambda name: name.encode("raw_unicode_escape").decode("utf-8")
         )
         messages["timestamp"] = pd.to_datetime(messages["timestamp_ms"], unit="ms")
-        messages["count"] = 1
         messages["delayed"] = (
             messages["timestamp"].diff() >= DELAYED_MESSAGE_THRESHOLD
         ) & (messages["sender_name"] != messages["sender_name"].shift())
         messages["double"] = (
             messages["timestamp"].diff() >= DOUBLE_MESSAGE_THRESHOLD
         ) & (messages["sender_name"] == messages["sender_name"].shift())
+        messages["count"] = 1
         messages = messages.set_index("timestamp").drop("timestamp_ms", axis="columns")
         messages_aggregated = (
             messages.groupby("sender_name").resample("D").sum().unstack(0)
